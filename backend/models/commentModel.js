@@ -1,12 +1,11 @@
 const mongoose=require("mongoose");
-const { applyTimestamps } = require("./userModel");
 
 
-const commentSchema=new monogoose.Schema({
+const commentSchema=new mongoose.Schema({
     post:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"Post",
-        required:"true"
+        required:true
     },
     author:{
         type:mongoose.Schema.Types.ObjectId,

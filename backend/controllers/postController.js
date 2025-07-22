@@ -29,6 +29,7 @@ const createPost=async (req,res)=>{
         description:description,
         category:category,
         location:location,
+        author: req.user.userId
     })
 
     await postData.save();

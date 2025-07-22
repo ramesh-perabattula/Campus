@@ -25,7 +25,7 @@ const postSchema=new mongoose.Schema({
     author:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'User',
-        //required:true
+        required:true
     },
     image:{
         type:String,
@@ -33,7 +33,7 @@ const postSchema=new mongoose.Schema({
     },
     createdAt:{
         type:Date,
-        deafult:Date.now
+        default:Date.now
     }
 })
 
