@@ -2,7 +2,7 @@ const postModel=require('../models/postModel');
 const mongoose=require('mongoose');
 
 
-const getAllPosts=async(res,req)=>{
+const getAllPosts=async(req, res)=>{
     const posts=await postModel.find();
     return res.json({posts});
 }
