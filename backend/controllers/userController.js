@@ -1,7 +1,7 @@
 const jwt=require("jsonwebtoken");
 const userModel=require("../models/userModel")
 const jwt_secret="ramesh"
-
+const bcrypt = require("bcrypt");
 
 
 const signup=async (req,res)=>{
@@ -25,16 +25,19 @@ const signup=async (req,res)=>{
         })
     }
 
+    // Hash the password before saving
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const newUser = new userModel({
         name:name,
-        password:password,
+        password:hashedPassword,
         studentid:studentid
     })
 
     await newUser.save();
 
     const token=jwt.sign({
-        userId:userModel._id
+        userId:newUser._id
     },jwt_secret);
 
     res.json({
@@ -66,17 +69,16 @@ const signin=async(req,res)=>{
         })
     }
 
-
-    //const isPasswordMatch=await userModel.comparePassword(password);
-
-    // if(!isPasswordMatch){
-    //     return res.json({
-    //         message:"password does not match"
-    //     })
-    // }
+    // Compare the provided password with the hashed password
+    const isPasswordMatch = await bcrypt.compare(password, checkUser.password);
+    if(!isPasswordMatch){
+        return res.json({
+            message:"password does not match"
+        })
+    }
 
     const token=jwt.sign({
-        userId:userModel._id
+        userId:checkUser._id
     },jwt_secret);
 
     return res.json({
